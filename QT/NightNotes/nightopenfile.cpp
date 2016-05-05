@@ -5,7 +5,7 @@ void NightWindow::currentItemChanged(QTreeWidgetItem* newItem,QTreeWidgetItem*) 
     saveCurrentFile();
     if (newItem == NULL) return;
     QFileInfo fileInfo = QFileInfo( newItem->data(0, Qt::UserRole).toString());
-    if (fileInfo.fileName().endsWith(".txt") == true && fileInfo.size() < MAX_FILE) { // do not open files larger than max_file (256k)
+    if ((fileInfo.fileName().endsWith(".txt") == true || fileInfo.fileName().endsWith(".md") == true) && fileInfo.size() < MAX_FILE) { // do not open files larger than max_file (256k)
         openTextFile(fileInfo.absoluteFilePath());
         ui->labelLastChanged->setText(fileInfo.lastModified().toString());
         this->setWindowTitle("Night Notes - " + fileInfo.fileName());
@@ -62,6 +62,9 @@ void NightWindow::on_pushButtonAdd_clicked()
             } else {
                 newFileName = getNewFileName4Folder(fInfo.absolutePath());
             }
+            if (newFileName.isEmpty()) {
+                return;
+            }
             QFile newFile(newFileName);
             if (newFile.open(QFile::ReadWrite) == true) {
                 currentFile = newFileName;
@@ -75,6 +78,9 @@ void NightWindow::on_pushButtonAdd_clicked()
                     newFileName = getNewFileName4Folder(fInfo.absoluteFilePath());
                 } else {
                     newFileName = getNewFileName4Folder(fInfo.absolutePath());
+                }
+                if (newFileName.isEmpty()) {
+                    return;
                 }
                 QFile newFile(newFileName);
                 if (newFile.open(QFile::ReadWrite) == true) {

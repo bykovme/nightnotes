@@ -95,9 +95,14 @@ NightTreeWidgetItem * NightWindow::loadTree(QString folderPath, NightTreeWidgetI
             }
 
         } else {
-            if (fileInfo.fileName().endsWith(".txt",Qt::CaseInsensitive) == true) {
+            if (fileInfo.fileName().endsWith(".txt",Qt::CaseInsensitive) == true ||
+                    fileInfo.fileName().endsWith(".md",Qt::CaseInsensitive) == true) {
                 NightTreeWidgetItem * newItem = new NightTreeWidgetItem(treeItem);
-                newItem->setText(0, fileInfo.fileName().mid(0,fileInfo.fileName().count() - 4));
+                int extCount = 3;
+                if (fileInfo.fileName().endsWith(".txt",Qt::CaseInsensitive) == true) {
+                    extCount = 4;
+                }
+                newItem->setText(0, fileInfo.fileName().mid(0,fileInfo.fileName().count() - extCount));
                 newItem->setData(0, Qt::UserRole, fileInfo.absoluteFilePath());
                 newItem->setIcon(0, QIcon(":/images/note.png"));
                 newItem->setFlags((newItem->flags() | Qt::ItemIsEditable) & ~Qt::ItemIsDropEnabled);

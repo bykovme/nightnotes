@@ -23,20 +23,23 @@ SOURCES += main.cpp\
     nightfilesoperations.cpp \
     nightlist.cpp \
     nightopenfile.cpp \
-    nighttree.cpp
+    nighttree.cpp \
+    nightnewfile.cpp
 
 HEADERS  += nightwindow.h \
     themes.h \
     const.h \
     nightnoteprefs.h \
     nightabout.h \
-    nightmessage.h
+    nightmessage.h \
+    nightnewfile.h
 
 FORMS    += nightwindow.ui \
     nightnoteprefs.ui \
     nightabout.ui \
     nightmessage.ui \
-    nightsearchdialog.ui
+    nightsearchdialog.ui \
+    nightnewfile.ui
 
 RESOURCES += \
     NightNoteRes.qrc

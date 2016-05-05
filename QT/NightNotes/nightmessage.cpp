@@ -2,6 +2,7 @@
 #include "ui_nightmessage.h"
 #include <QDesktopWidget>
 #include <QDebug>
+#include <QPushButton>
 
 NightMessage::NightMessage(QWidget *parent) :QDialog(parent), ui(new Ui::NightMessage) {
     ui->setupUi(this);
@@ -34,7 +35,10 @@ void NightMessage::setMessage(QString title, QString text, bool error, int messa
         break;
     case MESSAGE_YESNO:
         ui->buttonBox->setStandardButtons(QDialogButtonBox::Yes | QDialogButtonBox::No);
-        //ui->buttonBox->setShortcutEnabled();
+         QPushButton *YesButton=ui->buttonBox->button(QDialogButtonBox::Yes);
+         YesButton->setShortcut(QKeySequence( Qt::Key_Y));
+         // YesButton setShortcut( QKeySequence( Qt::Key_Y) );
+        //ui->buttonBox->setShortcutEnabled(1, true);
         break;
     }
 

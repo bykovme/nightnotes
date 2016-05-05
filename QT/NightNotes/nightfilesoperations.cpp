@@ -111,8 +111,12 @@ void NightWindow::on_pushButtonDelete_clicked()
                 bool deleteFile = false;
                 if (NightNotePrefs::getWarnBeforeDelete() == true) {
                     NightMessage nm;
+                    int extLen = 4;
+                    if (fInfo.fileName().endsWith(".md",Qt::CaseInsensitive)) {
+                        extLen = 3;
+                    }
                     nm.setMessage(tr("Warning!"), tr("Are you sure you want to delete this note: '") +
-                                  fInfo.fileName().mid(0,fInfo.fileName().count() - 4) + "'?",
+                                  fInfo.fileName().mid(0,fInfo.fileName().count() - extLen) + "'?",
                                   true, NightMessage::MESSAGE_YESNO);
                     if (nm.exec() == 1) {
                         deleteFile = true;
@@ -191,8 +195,12 @@ void NightWindow::itemNameChanged(QTreeWidgetItem * item, int column) {
             fileDir.rename(fileInfo.absoluteFilePath(), fileInfo.absolutePath() + QDir::separator() + item->text(0));
         } else {
             QString newFileName = "";
-            if (currentFile == fileInfo.absoluteFilePath()) newFileName = item->text(0) + ".txt";
-            if (fileDir.rename(fileInfo.absoluteFilePath(), fileInfo.absolutePath() + QDir::separator() + item->text(0) + ".txt") == true) {
+            QString ext = ".md";
+            if(fileInfo.fileName().endsWith(".txt", Qt::CaseInsensitive)) {
+                ext = ".txt";
+            }
+            if (currentFile == fileInfo.absoluteFilePath()) newFileName = item->text(0) + ext;
+            if (fileDir.rename(fileInfo.absoluteFilePath(), fileInfo.absolutePath() + QDir::separator() + item->text(0) + ext) == true) {
                 if (newFileName.isEmpty() == false) {
                     currentFile = fileInfo.absolutePath() + QDir::separator() + newFileName;
                 }

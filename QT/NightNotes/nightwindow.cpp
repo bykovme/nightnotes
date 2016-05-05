@@ -1,5 +1,6 @@
 #include "nightwindow.h"
 #include "ui_nightwindow.h"
+#include "nightnewfile.h"
 
 #include <qdesktopservices.h>
 #include <QProcess>
@@ -436,6 +437,28 @@ void NightWindow::resizeEvent(QResizeEvent *)
 }
 
 QString NightWindow::getNewFileName4Folder(QString path) {
+
+    NightNewFile nNewFile;
+    while(1) {
+
+        nNewFile.SetPath(path);
+        if (nNewFile.exec() == 1) {
+            QString newFileName = nNewFile.GetFileName();
+            if (newFileName.isEmpty()) {
+                nNewFile.SetErrorText("File name cannot be empty!");
+                continue;
+            }
+            if (QFile::exists(newFileName) == true) {
+                nNewFile.SetErrorText("File with this name exists!");
+                continue;
+            }
+            return newFileName;
+        } else {
+            return "";
+        }
+    }
+
+    /*
     QString newFileName = path + QDir::separator() + DEFAULT_NEW_NAME + ".txt";
     int count = 0;
     while(QFile::exists(newFileName) == true) {
@@ -447,7 +470,8 @@ QString NightWindow::getNewFileName4Folder(QString path) {
             break;
         }
     }
-    return newFileName;
+    */
+    return "";
 }
 
 
