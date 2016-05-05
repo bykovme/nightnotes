@@ -1,0 +1,43 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/blackwood.png</file>
+        <file>images/black_folder.png</file>
+        <file>images/black_text.png</file>
+        <file>images/trash.png</file>
+        <file>images/new_folder.png</file>
+        <file>images/settings.png</file>
+        <file>images/new_note.png</file>
+        <file>images/about.png</file>
+        <file>images/icon256.png</file>
+        <file>images/icon1024.png</file>
+        <file>nightnotes.icns</file>
+        <file>images/note.png</file>
+        <file>images/info.png</file>
+        <file>images/stop.png</file>
+        <file>images/refresh.png</file>
+        <file>images/new_folder_v2.png</file>
+        <file>images/new_list_v2.png</file>
+        <file>images/settings_v2.png</file>
+        <file>images/new_note_v7.png</file>
+        <file>images/trash_v2.png</file>
+        <file>images/info_v2.png</file>
+        <file>images/list_delete.png</file>
+        <file>images/next_line.png</file>
+        <file>images/new_search.png</file>
+        <file>images/next_line2.png</file>
+        <file>images/next_line3.png</file>
+        <file>images/stylesheet-branch-closed.png</file>
+        <file>images/stylesheet-branch-end.png</file>
+        <file>images/stylesheet-branch-more.png</file>
+        <file>images/stylesheet-branch-open.png</file>
+        <file>images/stylesheet-vline.png</file>
+        <file>images/stylesheet-branch-closed-last.png</file>
+        <file>images/stylesheet-branch-open-last.png</file>
+        <file>images/background.png</file>
+        <file>images/main_folder.png</file>
+        <file>images/black_folder_light_open.png</file>
+        <file>images/black_folder_light.png</file>
+        <file>images/black_folder_star.png</file>
+        <file>readme_en.txt</file>
+    </qresource>
+</RCC>

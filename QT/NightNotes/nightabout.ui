@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>NightAbout</class>
+ <widget class="QDialog" name="NightAbout">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>385</width>
+    <height>421</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Night Notes</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="NightNoteRes.qrc">
+    <normaloff>:/images/icon256.png</normaloff>:/images/icon256.png</iconset>
+  </property>
+  <widget class="QLabel" name="labelProgramVersion">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>0</y>
+     <width>261</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Verdana</family>
+     <pointsize>16</pointsize>
+     <weight>50</weight>
+     <bold>false</bold>
+     <stylestrategy>PreferAntialias</stylestrategy>
+    </font>
+   </property>
+   <property name="text">
+    <string>Night Notes 1.0 BETA</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelDevelopedBy">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>40</y>
+     <width>251</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Verdana</family>
+     <pointsize>14</pointsize>
+     <stylestrategy>PreferAntialias</stylestrategy>
+    </font>
+   </property>
+   <property name="text">
+    <string>Developed by Alex Bykov</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelMail">
+   <property name="geometry">
+    <rect>
+     <x>15</x>
+     <y>120</y>
+     <width>361</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>E-mail: &lt;a href=&quot;alex@bykov.me&quot; style=&quot;color: yellow;&quot;&gt;alex@bykov.me&lt;/a&gt;</string>
+   </property>
+  </widget>
+  <widget class="QGraphicsView" name="graphicsViewIcon">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>96</width>
+     <height>96</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelMailWeb">
+   <property name="geometry">
+    <rect>
+     <x>15</x>
+     <y>137</y>
+     <width>361</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Homepage: &lt;a href=&quot;http://nightnotes.bykov.me&quot; style=&quot;color: yellow;&quot;&gt;nightnotes.bykov.me&lt;/a&gt;</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>180</y>
+     <width>351</width>
+     <height>211</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;Shortcuts&lt;/span&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;&lt;br/&gt;&lt;/span&gt;Ctrl + N: &lt;span style=&quot; font-style:italic;&quot;&gt;new note&lt;/span&gt;&lt;br/&gt;Ctrl + R: &lt;span style=&quot; font-style:italic;&quot;&gt;refresh&lt;/span&gt;&lt;br/&gt;Ctrl + W:&lt;span style=&quot; font-style:italic;&quot;&gt; wrap/unwrap text&lt;/span&gt;&lt;br/&gt;Ctrl + F: &lt;span style=&quot; font-style:italic;&quot;&gt;open find widget&lt;/span&gt;&lt;br/&gt;Ctrl + D: &lt;span style=&quot; font-style:italic;&quot;&gt;close find widget&lt;/span&gt;&lt;br/&gt;Ctrl + P: &lt;span style=&quot; font-style:italic;&quot;&gt;open preferences dialog&lt;/span&gt;&lt;br/&gt;Ctrl + I: &lt;span style=&quot; font-style:italic;&quot;&gt;open this help window&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Backspace (when in tree): &lt;span style=&quot; font-style:italic;&quot;&gt;delete note&lt;/span&gt;&lt;br/&gt;Right arrow (when in tree): &lt;span style=&quot; font-style:italic;&quot;&gt;expand folder &lt;/span&gt;&lt;br/&gt;Left arrow (when in tree): &lt;span style=&quot; font-style:italic;&quot;&gt;collapse folder&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>132</x>
+     <y>379</y>
+     <width>114</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Close</string>
+   </property>
+   <property name="shortcut">
+    <string>Return</string>
+   </property>
+   <property name="default">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonCheckUpdates">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>70</y>
+     <width>231</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Check for updates</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelLoad">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>80</y>
+     <width>211</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Checking new version...</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <zorder>labelProgramVersion</zorder>
+  <zorder>labelDevelopedBy</zorder>
+  <zorder>graphicsViewIcon</zorder>
+  <zorder>labelMailWeb</zorder>
+  <zorder>labelMail</zorder>
+  <zorder>label</zorder>
+  <zorder>pushButton</zorder>
+  <zorder>pushButtonCheckUpdates</zorder>
+  <zorder>labelLoad</zorder>
+ </widget>
+ <resources>
+  <include location="NightNoteRes.qrc"/>
+ </resources>
+ <connections/>
+</ui>
