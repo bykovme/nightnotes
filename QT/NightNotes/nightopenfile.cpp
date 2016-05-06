@@ -1,5 +1,36 @@
 #include "nightwindow.h"
 #include "ui_nightwindow.h"
+//#include "markdown.h"
+#include <iostream>
+#include <sstream>
+#include "discount/discount-wrapper.hpp"
+
+QString NightWindow::convertMD2HTML(QString mdText) {
+    //markdown::Document doc;
+    //doc.read(mdText);
+    //std::stringstream out;
+    //QString htmlText = doc.write(out);
+    std::string mdIn = mdText.toStdString();
+    Markdown mkd(mdIn);
+    try {
+        // throws a std::runtime_error if discount fails to parse
+        // the markdown string, ie. mkd_string() returns a nullptr.
+        mkd.compile();
+        // html <- "<h1>Hello Markdown!</h1>"
+        std::string html = mkd.html();
+        return QString::fromStdString( html);
+    }
+    catch(const std::runtime_error& e) {
+        return "Markdown to HTML conversion error";
+    }
+}
+
+void NightWindow::anchorClicked(const QUrl & link) {
+    NightMessage nm;
+    nm.setMessage(tr("Link 2 open"), tr("Link: '") + link.toString(), false, NightMessage::MESSAGE_OK);
+    nm.exec();
+
+}
 
 void NightWindow::currentItemChanged(QTreeWidgetItem* newItem,QTreeWidgetItem*) {
     saveCurrentFile();
@@ -44,6 +75,15 @@ void NightWindow::openTextFile(QString filename) {
                 //ui->listWidget->setVisible(false);
 
                 ui->plainTextEdit->setPlainText(plainText);
+
+                if (filename.endsWith(".md", Qt::CaseInsensitive)) {
+                    ui->textBrowser->setVisible(true);
+                     ui->plainTextEdit->setVisible(false);
+                    ui->textBrowser->setHtml(convertMD2HTML(plainText));
+                } else {
+                    ui->textBrowser->setVisible(false);
+                    ui->plainTextEdit->setVisible(true);
+                }
             }
             loadingFile = false;
     }

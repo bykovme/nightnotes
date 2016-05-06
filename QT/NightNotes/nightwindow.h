@@ -21,6 +21,7 @@
 #include <QTableWidgetItem>
 #include <QDrag>
 #include <QMenu>
+#include <QTextBrowser>
 
 #include <QDebug>
 
@@ -118,7 +119,7 @@ private slots:
     void onDeleteContextClickedTree();
     void onShowInFinderContextClickedTree();
     void menuAboutToShow();
-
+    void anchorClicked(const QUrl & link);
 private:
     void resizeEvent(QResizeEvent *);
     void closeEvent(QCloseEvent *);
@@ -134,6 +135,7 @@ private:
     QString getFileText(QString plainText);
     void buildList(QString plainText);
     void findSearchTerm();
+    QString convertMD2HTML(QString mdText);
     // void expandMe(QTreeWidgetItem * item);
 
     Ui::NightWindow *ui;

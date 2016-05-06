@@ -143,9 +143,22 @@ NightWindow::NightWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::Nigh
     connect(showInFinderActionTree, SIGNAL(triggered()),this, SLOT(onShowInFinderContextClickedTree()));
     connect(nodeMenu, SIGNAL(aboutToShow()), this, SLOT(menuAboutToShow()));
 
+    ui->textBrowser->setOpenLinks(false);
+    connect(ui->textBrowser, SIGNAL(anchorClicked(QUrl)), this, SLOT(anchorClicked(QUrl)));
+
+    /*
+    ui->textBrowser->setStyleSheet(
+        " QTextBrowser  { background-color: #222222; color:#BBBBBB;padding-left:3px;padding-top:2px;padding-right:3px; a:link {color: red} }"
+     );
+    */
+
+    ui->textBrowser->document()->setDefaultStyleSheet("a:link {color: #000077; } "
+                                                      "a:hover {color: red; } ");
+
     //this->centralWidget()->setVisible(true);
 
 }
+
 
 void NightWindow::onCreateFolderContextClickedTree() {
     qDebug() << "Create folder";
@@ -267,7 +280,7 @@ void NightWindow::currentFileChanged() {
     dirty = true;
     if (currentFile != "") {
         savingTimer->setSingleShot(true);
-        savingTimer->start(10000); // 10 seconds
+        savingTimer->start(5000); // 5 seconds
     }
 }
 

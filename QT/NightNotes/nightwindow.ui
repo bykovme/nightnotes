@@ -182,6 +182,7 @@
       </font>
      </property>
     </widget>
+    <widget class="QTextBrowser" name="textBrowser"/>
    </widget>
    <widget class="QPushButton" name="pushButtonPrefs">
     <property name="geometry">

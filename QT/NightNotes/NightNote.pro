@@ -8,6 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+
 TARGET = NightNotes
 TEMPLATE = app
 
@@ -32,7 +33,9 @@ HEADERS  += nightwindow.h \
     nightnoteprefs.h \
     nightabout.h \
     nightmessage.h \
-    nightnewfile.h
+    nightnewfile.h \
+    discount/discount-wrapper.hpp \
+    discount/mkdio.h
 
 FORMS    += nightwindow.ui \
     nightnoteprefs.ui \
@@ -46,3 +49,6 @@ RESOURCES += \
 
 OTHER_FILES += \
     nightnotes.icns
+
+macx:LIBS += -L"/usr/local/lib" -lmarkdown++ -lmarkdown
+

@@ -25,6 +25,10 @@ void NightWindow::saveCurrentFile() {
         }
         ui->labelLastChanged->setText(fileInfo.lastModified().toString());
         this->setWindowTitle("Night Notes - " + fileInfo.fileName());
+        if (ui->textBrowser->isVisible()) {
+            ui->textBrowser->setHtml(convertMD2HTML(ui->plainTextEdit->toPlainText()));
+            //ui->textBrowser->setHtml(ui->plainTextEdit->toPlainText());
+        }
         dirty = false;
     }
 }
