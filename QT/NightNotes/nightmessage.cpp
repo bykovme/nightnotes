@@ -12,8 +12,6 @@ NightMessage::NightMessage(QWidget *parent) :QDialog(parent), ui(new Ui::NightMe
                    ~Qt::WindowContextHelpButtonHint);
     setFixedSize(width(), height());
     ui->graphicsView->setStyleSheet("background: transparent");
-
-
     this->setStyleSheet("QWidget{font-size:13px;font-family: Arial, Helvetica, Verdana, sans-serif;}");
     ui->labelTitle->setStyleSheet("QWidget{font-size:14px;font-family: Arial, Helvetica, Verdana, sans-serif;font-weight:bold;}");
 }
@@ -22,13 +20,14 @@ const int NightMessage::MESSAGE_OK = 0;
 const int NightMessage::MESSAGE_YESNO = 1;
 
 void NightMessage::setMessage(QString title, QString text, bool error, int messageType) {
+
     QGraphicsScene* scene = new QGraphicsScene(0,0,64,64,this);
-    QString iconName;
+    QString iconName = ":/images/info.png";
+
     if (error == true) {
         iconName = ":/images/stop.png";
-    } else {
-        iconName = ":/images/info.png";
     }
+
     switch(messageType) {
     case MESSAGE_OK:
         ui->buttonBox->setStandardButtons(QDialogButtonBox::Ok);
@@ -37,8 +36,6 @@ void NightMessage::setMessage(QString title, QString text, bool error, int messa
         ui->buttonBox->setStandardButtons(QDialogButtonBox::Yes | QDialogButtonBox::No);
          QPushButton *YesButton=ui->buttonBox->button(QDialogButtonBox::Yes);
          YesButton->setShortcut(QKeySequence( Qt::Key_Y));
-         // YesButton setShortcut( QKeySequence( Qt::Key_Y) );
-        //ui->buttonBox->setShortcutEnabled(1, true);
         break;
     }
 

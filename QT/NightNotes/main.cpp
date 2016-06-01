@@ -5,9 +5,10 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    QCoreApplication::setOrganizationName("Alexander Bykov");
-    QCoreApplication::setOrganizationDomain("bykov.me");
-    QCoreApplication::setApplicationName("Night Note");
+    QCoreApplication::setOrganizationName(COMPANY);
+    QCoreApplication::setOrganizationDomain(DOMAIN);
+    QCoreApplication::setApplicationName(NIGHT_NOTES);
+    QCoreApplication::setApplicationVersion(APP_VERSION_TEXT);
 
     NightWindow w;
     w.show();

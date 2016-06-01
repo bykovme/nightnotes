@@ -10,23 +10,14 @@ NightAbout::NightAbout(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::NightAbout)
 {
+
     ui->setupUi(this);
     setWindowFlags((windowFlags() | Qt::CustomizeWindowHint) &
                    ~Qt::WindowMinimizeButtonHint &
                    ~Qt::WindowMaximizeButtonHint );
 
     setFixedSize(width(), height());
-
-    /*
-    QGraphicsScene* scene = new QGraphicsScene(0,0,96,96,this);
-    QString iconName;
-    iconName = ":/images/icon256.png";
-    scene->addPixmap(QPixmap(iconName));
-    ui->graphicsViewIcon->setStyleSheet("background: transparent");
-    ui->graphicsViewIcon->setScene(scene);
-    ui->graphicsViewIcon->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    ui->graphicsViewIcon->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    ui->graphicsViewIcon->ensureVisible(0,0,96,96);*/
+    this->setStyleSheet(NightNotePrefs::getThemeHeader() + ";background-color:black; color:#BBBBBB; ");
 
 
     ui->graphicsViewIcon->setStyleSheet("background: transparent;border:none;");
@@ -44,9 +35,6 @@ NightAbout::NightAbout(QWidget *parent) :
     ui->labelMail->setOpenExternalLinks(true);
     ui->labelMailWeb->setOpenExternalLinks(true);
 
-    this->setStyleSheet(NightNotePrefs::getThemeHeader() + ";background: url(:/images/background.png) 0; color:#BBBBBB; ");
-    //ui->pushButton->setStyleSheet(NightNotePrefs::getThemeHeader());
-    //this->setStyleSheet();
     ui->labelProgramVersion->setStyleSheet(
                 " QLabel  { background:transparent;color:#BEBEBE;}"
                 );

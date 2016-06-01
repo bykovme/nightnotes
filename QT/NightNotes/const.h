@@ -7,6 +7,8 @@
 
 #define MAX_FILE 262144
 #define DEFAULT_NEW_NAME "New Night Note"
-#define APP_VERSION_INTERNAL "7"
-#define APP_VERSION_TEXT "1.0 BETA"
-#define NIGHT_NOTES "Night Notes"
+#define APP_VERSION_INTERNAL "8"
+#define APP_VERSION_TEXT "1.0"
+#define NIGHT_NOTES "Night Notes MD"
+#define COMPANY "BykovSoft"
+#define DOMAIN "bykovsoft.com"

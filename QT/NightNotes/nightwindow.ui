@@ -388,8 +388,8 @@
    <widget class="QPushButton" name="pushButtonAddList">
     <property name="geometry">
      <rect>
-      <x>360</x>
-      <y>5</y>
+      <x>306</x>
+      <y>7</y>
       <width>31</width>
       <height>31</height>
      </rect>
@@ -403,20 +403,23 @@
      </font>
     </property>
     <property name="toolTip">
-     <string>New folder</string>
+     <string>Switch between View/Edit modes</string>
     </property>
     <property name="text">
      <string/>
     </property>
     <property name="icon">
      <iconset resource="NightNoteRes.qrc">
-      <normaloff>:/images/new_list_v2.png</normaloff>:/images/new_list_v2.png</iconset>
+      <normaloff>:/images/edit.png</normaloff>:/images/edit.png</iconset>
     </property>
     <property name="iconSize">
      <size>
       <width>24</width>
       <height>24</height>
      </size>
+    </property>
+    <property name="shortcut">
+     <string>Ctrl+E</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButtonRemoveList">

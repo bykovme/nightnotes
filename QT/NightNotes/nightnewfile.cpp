@@ -1,6 +1,7 @@
 #include "nightwindow.h"
 #include "nightnewfile.h"
 #include "ui_nightnewfile.h"
+#include <QPushButton>
 
 NightNewFile::NightNewFile(QWidget *parent) :
     QDialog(parent),
@@ -12,7 +13,6 @@ NightNewFile::NightNewFile(QWidget *parent) :
                    ~Qt::WindowMaximizeButtonHint &
                    ~Qt::WindowContextHelpButtonHint);
     setFixedSize(width(), height());
-   // ui->graphicsView->setStyleSheet("background: transparent");
 
 
     this->setStyleSheet("QWidget{font-size:13px;font-family: Arial, Helvetica, Verdana, sans-serif;}");

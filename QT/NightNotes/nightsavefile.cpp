@@ -1,33 +1,29 @@
 #include "nightwindow.h"
 #include "ui_nightwindow.h"
+#include <QSaveFile>
 
-void NightWindow::saveCurrentFile() {
-    if (currentFile != "" && dirty == true) {
-        QFile f(currentFile);
-        if (f.open(QFile::ReadWrite | QFile::Text | QFile::Truncate) == true) {
+void NightWindow::saveCurrentFile(bool forceWrite) {
+    if (currentFile != "" && (dirty == true || forceWrite == true)) {
+        QSaveFile f(currentFile);
+        if (f.open(QSaveFile::WriteOnly | QSaveFile::Text | QSaveFile::Truncate) == true) {
                 QTextStream out(&f);
                 out.setCodec("UTF-8");
                 out << ui->plainTextEdit->toPlainText();
+                out.flush();
+                if (out.status() != QTextStream::Ok) {
+                    NightMessage nm;
+                    nm.setMessage(tr("Save error"), "Error!!!!", true, NightMessage::MESSAGE_OK);
+                    nm.exec();
+                }
         }
-        f.close();
+        f.commit();
 
         QFileInfo fileInfo = QFileInfo( currentFile);
-        if(fileInfo.fileName() == "New Night Note") {
-            QString plainTextEditContents = ui->plainTextEdit->toPlainText();
-            QStringList lines = plainTextEditContents.split("\n");
-            if (lines.count() > 1) {
-                QString line = lines.at(0) + ".txt";
-                f.rename(line);
-                fileInfo = QFileInfo(fileInfo.absolutePath() + QDir::separator() + line );
-                currentFile = fileInfo.absoluteFilePath();
-                loadFiles();
-            }
-        }
+
         ui->labelLastChanged->setText(fileInfo.lastModified().toString());
         this->setWindowTitle("Night Notes - " + fileInfo.fileName());
         if (ui->textBrowser->isVisible()) {
             ui->textBrowser->setHtml(convertMD2HTML(ui->plainTextEdit->toPlainText()));
-            //ui->textBrowser->setHtml(ui->plainTextEdit->toPlainText());
         }
         dirty = false;
     }

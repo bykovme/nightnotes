@@ -39,5 +39,8 @@
         <file>images/black_folder_light.png</file>
         <file>images/black_folder_star.png</file>
         <file>readme_en.txt</file>
+        <file>images/edit.png</file>
+        <file>images/view.png</file>
+        <file>images/notemd.png</file>
     </qresource>
 </RCC>

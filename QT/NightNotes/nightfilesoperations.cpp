@@ -41,8 +41,6 @@ bool NightWindow::moveFolder(QString src, QString dest) {
                     return false;
                 }
             }
-        } else {
-            qDebug() << "Unhandled item" << info.filePath() << "in cpDir";
         }
     }
 
@@ -50,17 +48,17 @@ bool NightWindow::moveFolder(QString src, QString dest) {
 }
 
 void NightWindow::recursiveFolderDelete(QString folderPath) {
-    qDebug() << "Recursive enter, folder name: " << folderPath;
+
     QDir dir(folderPath);
     QFileInfoList files = dir.entryInfoList();
     foreach(QFileInfo fileInfo, files) {
         if (fileInfo.isDir() == true) {
             if (fileInfo.fileName() == "." || fileInfo.fileName() == "..") continue;
-            //qDebug() << "Child folder name: " << fileInfo.absoluteFilePath();
+
             recursiveFolderDelete(fileInfo.absoluteFilePath());
             //
         } else {
-            //qDebug() << "Child file name: " << fileInfo.absoluteFilePath();
+
             QFile::remove(fileInfo.absoluteFilePath());
         }
     }

@@ -6,6 +6,8 @@
 
 QT       += core gui
 
+#macx:LIBS +=  -lmarkdown++ -lmarkdown
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 
@@ -22,7 +24,6 @@ SOURCES += main.cpp\
     nightmessage.cpp \
     nightsavefile.cpp \
     nightfilesoperations.cpp \
-    nightlist.cpp \
     nightopenfile.cpp \
     nighttree.cpp \
     nightnewfile.cpp
@@ -50,5 +51,12 @@ RESOURCES += \
 OTHER_FILES += \
     nightnotes.icns
 
-macx:LIBS += -L"/usr/local/lib" -lmarkdown++ -lmarkdown
 
+INCLUDEPATH += $$PWD/discount
+DEPENDPATH += $$PWD/discount
+
+macx: LIBS += -L$$PWD/discount/ -lmarkdown++
+macx: LIBS += -L$$PWD/discount/ -lmarkdown
+
+macx: PRE_TARGETDEPS += $$PWD/discount/libmarkdown.a
+macx: PRE_TARGETDEPS += $$PWD/discount/libmarkdown++.a

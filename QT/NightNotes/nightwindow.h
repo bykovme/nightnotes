@@ -23,7 +23,7 @@
 #include <QMenu>
 #include <QTextBrowser>
 
-#include <QDebug>
+//#include <QDebug>
 
 #include "const.h"
 #include "themes.h"
@@ -108,18 +108,19 @@ private slots:
 
     void on_pushButtonWrapText_toggled(bool checked);
     void on_pushButtonRefresh_clicked();
-    void on_pushButtonAddList_clicked();
     void on_pushButtonSearch_clicked();
     void on_pushButtonCancelSearch_clicked();
     void on_lineEditFind_returnPressed();
     void on_pushButtonFind_clicked();
 
     void onCreateFolderContextClickedTree();
+    void onConvertFormats();
     void onCreateNoteContextClickedTree();
     void onDeleteContextClickedTree();
     void onShowInFinderContextClickedTree();
     void menuAboutToShow();
     void anchorClicked(const QUrl & link);
+    void onChangeViewClicked(bool clicked);
 private:
     void resizeEvent(QResizeEvent *);
     void closeEvent(QCloseEvent *);
@@ -127,20 +128,17 @@ private:
     void saveSettings();
     void loadSettings();
     void loadFiles();
-    void saveCurrentFile();
+    void saveCurrentFile(bool forceWrite = false);
     NightTreeWidgetItem * loadTree(QString folderPath, NightTreeWidgetItem * treeItem);
     QString getNewFileName4Folder(QString path);
     void openTextFile(QString filename);
     void recursiveFolderDelete(QString folderPath);
     QString getFileText(QString plainText);
-    void buildList(QString plainText);
     void findSearchTerm();
     QString convertMD2HTML(QString mdText);
-    // void expandMe(QTreeWidgetItem * item);
 
     Ui::NightWindow *ui;
     int theme;
-
 
     QString dataPath;
     QTimer * savingTimer;

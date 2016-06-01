@@ -35,7 +35,7 @@ void NightWindow::loadFiles() {
 
     if (rootItem->childCount() == 0) {
         //First start
-        QString filename = NightNotePrefs::getCurrentPath() + QDir::separator() + "Read Me.txt";
+        QString filename = NightNotePrefs::getCurrentPath() + QDir::separator() + "ReadMe.md";
         QFile f(filename);
         if (f.open(QFile::ReadWrite | QFile::Text | QFile::Truncate) == true) {
             QFile fText(":/readme_en.txt");
@@ -45,7 +45,9 @@ void NightWindow::loadFiles() {
                 QTextStream out(&f);
                 out.setCodec("UTF-8");
                 out << in.readAll();
+                out.flush();
                 currentFile = filename;
+                openTextFile(currentFile);
             }
         }
         f.close();
@@ -70,7 +72,6 @@ NightTreeWidgetItem * NightWindow::loadTree(QString folderPath, NightTreeWidgetI
             NightTreeWidgetItem * newItem = new NightTreeWidgetItem(treeItem);
             newItem->setText(0, fileInfo.fileName());
             newItem->setData(0, Qt::UserRole, fileInfo.absoluteFilePath());
-            //newItem->
             newItem->setIcon(0, QIcon(":/images/black_folder_light.png"));
             newItem->setFlags(newItem->flags() | Qt::ItemIsEditable);
             treeItem->addChild(newItem);
@@ -80,17 +81,11 @@ NightTreeWidgetItem * NightWindow::loadTree(QString folderPath, NightTreeWidgetI
                 foundItem = localFoundItem;
             }
             if (openFolders.contains(fileInfo.absoluteFilePath() + ":") == true) {
-                //newItem->setIcon(0, QIcon(":/images/black_folder_light_open.png"));
                 ui->treeWidget->expandItem(newItem);
-
             }
 
             if (fileInfo.absoluteFilePath() == currentFile) {
                 newItem->setSelected(true);
-                //openTextFile(fileInfo.absoluteFilePath());
-                //ui->labelLastChanged->setText(fileInfo.lastModified().toString());
-                //this->setWindowTitle("Night Notes - " + fileInfo.fileName());
-                //currentFile = fileInfo.absoluteFilePath();
                 foundItem = newItem;
             }
 
@@ -104,16 +99,19 @@ NightTreeWidgetItem * NightWindow::loadTree(QString folderPath, NightTreeWidgetI
                 }
                 newItem->setText(0, fileInfo.fileName().mid(0,fileInfo.fileName().count() - extCount));
                 newItem->setData(0, Qt::UserRole, fileInfo.absoluteFilePath());
-                newItem->setIcon(0, QIcon(":/images/note.png"));
+                if (fileInfo.fileName().endsWith(".md",Qt::CaseInsensitive)) {
+                    newItem->setIcon(0, QIcon(":/images/notemd.png"));
+                } else {
+                    newItem->setIcon(0, QIcon(":/images/note.png"));
+                }
                 newItem->setFlags((newItem->flags() | Qt::ItemIsEditable) & ~Qt::ItemIsDropEnabled);
-                //connect(newItem, SIGNAL())
 
                 treeItem->addChild(newItem);
                 if (fileInfo.absoluteFilePath() == currentFile) {
                     newItem->setSelected(true);
                     openTextFile(fileInfo.absoluteFilePath());
                     ui->labelLastChanged->setText(fileInfo.lastModified().toString());
-                    this->setWindowTitle("Night Notes - " + fileInfo.fileName());
+                    this->setWindowTitle( " " + QString( NIGHT_NOTES) + " - " + fileInfo.fileName());
                     currentFile = fileInfo.absoluteFilePath();
                     foundItem = newItem;
                 }

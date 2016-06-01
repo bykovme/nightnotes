@@ -12,15 +12,16 @@ NightWindow::NightWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::Nigh
 
     setWindowIcon(QIcon(":/images/icon256.png"));
 
-    //this->centralWidget()->setVisible(false);
     currentFile = "";
     rootItem = NULL;
     lastSearchTerm = "nothing";
 
     loadSettings();
 
-    ui->pushButtonAddList->setVisible(false);   // For future use
+    ui->pushButtonAddList->setVisible(true);   // For future use
     ui->pushButtonRemoveList->setVisible(false);// for future use
+
+    connect(ui->pushButtonAddList, SIGNAL(clicked(bool)), this, SLOT(onChangeViewClicked(bool)));
 
     if (searchActive) {
         ui->lineEditFind->setVisible(true);
@@ -33,10 +34,7 @@ NightWindow::NightWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::Nigh
     }
 
     ui->treeWidget->setStyleSheet(NightNotePrefs::getThemeBackground());
-    //ui->listWidget->setStyleSheet(NightNotePrefs::getThemeBackground());
-    //ui->splitter->setStyleSheet(NightNotePrefs::getThemeDivider());
     this->setStyleSheet(NightNotePrefs::getThemeHeader());
-    //ui->centralWidget->setStyleSheet(NightNotePrefs::getThemeHeader());
 
     // Custom theme for treeview
     // Details here: http://qt-project.org/doc/qt-4.8/stylesheet-examples.html#customizing-qtreeview
@@ -86,6 +84,16 @@ NightWindow::NightWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::Nigh
     ui->pushButtonRefresh->setStyleSheet(BUTTON_WHITE_CSS);
     ui->pushButtonWrapText->setStyleSheet(BUTTON_WHITE_CSS);
     ui->pushButtonSearch->setStyleSheet(BUTTON_WHITE_CSS);
+    ui->pushButtonAddList->setStyleSheet(BUTTON_WHITE_CSS);
+
+    ui->textBrowser->setOpenLinks(false);
+    connect(ui->textBrowser, SIGNAL(anchorClicked(QUrl)), this, SLOT(anchorClicked(QUrl)));
+
+    ui->textBrowser->setStyleSheet(
+        " QTextBrowser  { background-color: #222222; color:#BBBBBB;padding-left:3px;padding-top:2px;padding-right:3px; font-family: verdana, sans-serif;}"
+     );
+
+    ui->textBrowser->document()->setDefaultStyleSheet("a:link {color: #5555FF; text-decoration:none;}" );
 
     loadFiles();
 
@@ -114,19 +122,13 @@ NightWindow::NightWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::Nigh
 
     ui->pushButtonWrapText->setChecked(NightNotePrefs::wrapTextByDefault());
 
-    //ui->listWidget->setVisible(false);
-
     // Context menu for items in the tree
     nodeMenu = new QMenu(ui->treeWidget);
     ui->treeWidget->setContextMenuPolicy(Qt::ActionsContextMenu);
-//    nodeMenu->setStyleSheet(
-//               "QContextMenu { background-color: #ABABAB; border: 1px solid black; }"
-//               "QContextMenu::item { background-color: transparent; } "
-//               "QContextMenu::item:selected { background-color: #654321;} "
-//                );
 
-    createFolderActionTree = new QAction("Create folder", nodeMenu);
-    createNoteActionTree = new QAction("Create Note", nodeMenu);
+    createFolderActionTree = new QAction(tr("Create folder"), nodeMenu);
+    createNoteActionTree = new QAction(tr("Create Note"), nodeMenu);
+    QAction * convert_textMD = new QAction(tr("Convert Text<->Markdown"), nodeMenu);
     deleteActionTree = new QAction(tr("Delete"), nodeMenu);
     QAction * sep = new QAction(nodeMenu);
     sep->setSeparator(true);
@@ -134,44 +136,47 @@ NightWindow::NightWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::Nigh
 
     ui->treeWidget->addAction(createFolderActionTree);
     ui->treeWidget->addAction(createNoteActionTree);
+    ui->treeWidget->addAction(convert_textMD);
     ui->treeWidget->addAction(deleteActionTree);
     ui->treeWidget->addAction(sep);
     ui->treeWidget->addAction(showInFinderActionTree);
+    connect(convert_textMD, SIGNAL(triggered()),this, SLOT(onConvertFormats()));
     connect(createFolderActionTree, SIGNAL(triggered()),this, SLOT(onCreateFolderContextClickedTree()));
     connect(createNoteActionTree, SIGNAL(triggered()),this, SLOT(onCreateNoteContextClickedTree()));
     connect(deleteActionTree, SIGNAL(triggered()),this, SLOT(onDeleteContextClickedTree()));
     connect(showInFinderActionTree, SIGNAL(triggered()),this, SLOT(onShowInFinderContextClickedTree()));
     connect(nodeMenu, SIGNAL(aboutToShow()), this, SLOT(menuAboutToShow()));
+}
 
-    ui->textBrowser->setOpenLinks(false);
-    connect(ui->textBrowser, SIGNAL(anchorClicked(QUrl)), this, SLOT(anchorClicked(QUrl)));
+void NightWindow::onConvertFormats(){
+    QFileInfo fInfo(currentFile);
+    QString newFile = fInfo.fileName();
 
-    /*
-    ui->textBrowser->setStyleSheet(
-        " QTextBrowser  { background-color: #222222; color:#BBBBBB;padding-left:3px;padding-top:2px;padding-right:3px; a:link {color: red} }"
-     );
-    */
 
-    ui->textBrowser->document()->setDefaultStyleSheet("a:link {color: #000077; } "
-                                                      "a:hover {color: red; } ");
+    if (currentFile.endsWith(".md", Qt::CaseInsensitive)) {
+       newFile = newFile.mid(0, newFile.length() - 3) + ".txt";
+    } else if (currentFile.endsWith(".txt", Qt::CaseInsensitive)) {
+        newFile = newFile.mid(0, newFile.length() - 4) + ".md";
+    }
 
-    //this->centralWidget()->setVisible(true);
-
+    QString fullPath = fInfo.absolutePath() + QDir::separator() + newFile;
+    if (QFile::copy(currentFile, fullPath) == true) {
+        QFile::remove(fInfo.absoluteFilePath());
+    }
+    currentFile = fullPath;
+    loadFiles();
 }
 
 
 void NightWindow::onCreateFolderContextClickedTree() {
-    qDebug() << "Create folder";
     on_pushButtonAddFolder_clicked();
 }
 
 void NightWindow::onCreateNoteContextClickedTree() {
-    qDebug() << "Create Note";
     on_pushButtonAdd_clicked();
 }
 
 void NightWindow::onDeleteContextClickedTree() {
-    qDebug() << "Delete";
     on_pushButtonDelete_clicked();
 }
 
@@ -219,7 +224,7 @@ void NightWindow::onShowInFinderContextClickedTree() {
 }
 
 void NightWindow::menuAboutToShow() {
-qDebug() << "Before to show";
+
 }
 
 void NightWindow::itemExpanded(QTreeWidgetItem *expandedItem) {
@@ -231,7 +236,6 @@ void NightWindow::itemExpanded(QTreeWidgetItem *expandedItem) {
         openFolders = openFolders + expandedFolder + ":";
         appSettings.setValue("general/open_folders", openFolders);
     }
-    //expandedItem->setIcon(0, QIcon(":/images/black_folder_light_open.png"));
 }
 
 void NightWindow::itemCollapsed(QTreeWidgetItem *collapseItem) {
@@ -248,7 +252,6 @@ void NightWindow::itemCollapsed(QTreeWidgetItem *collapseItem) {
             appSettings.setValue("general/open_folders", openFolders);
         }
     }
-    //collapseItem->setIcon(0, QIcon(":/images/black_folder_light.png"));
 }
 
 bool NightWindow::eventFilter( QObject* o, QEvent* e ) {
@@ -290,51 +293,42 @@ void NightWindow::saveTimeout() {
 }
 
 void NightWindow::moveTimeout() {
-    qDebug() << "Move timeout";
+
     if (droppedItem != NULL) {
         QTreeWidgetItem * parentItem = droppedItem->parent();
         QFileInfo fInfo(droppedItem->data(0, Qt::UserRole).toString());
         QFileInfo fInfoParentNew(parentItem->data(0, Qt::UserRole).toString());
-        qDebug() << "Old parent: " << fInfo.absolutePath();
-        qDebug() << "New parent: " << fInfoParentNew.absoluteFilePath();
+
         if (fInfo.absolutePath().compare(fInfoParentNew.absoluteFilePath()) != 0) {
-            qDebug() << "not equal, move required";
+
             if (fInfo.isDir() == false) {
                 QFile cpFile(fInfo.absoluteFilePath());
                 QString newFilePath = fInfoParentNew.absoluteFilePath() + QDir::separator() + fInfo.fileName();
                 if (cpFile.copy(newFilePath) == true) {
-                    qDebug() << " copied successfully, delete original";
-                    qDebug() << "New path: " << cpFile.fileName();
+
                     if (cpFile.remove() == true) {
                         droppedItem->setData(0, Qt::UserRole, newFilePath);
                         currentFile = newFilePath;
                     }
                 }
             } else {
-                //QDir mvDir(fInfo.absoluteFilePath());
+
                 QDir dstFolder(fInfoParentNew.absoluteFilePath() );
                 if (dstFolder.mkdir(QFileInfo(fInfo).fileName()) == true) {
-                    qDebug() << "Move folder";
-                    //changingFileName = true;
+
                     moveFolder(fInfo.absoluteFilePath(), fInfoParentNew.absoluteFilePath() + QDir::separator() + fInfo.fileName());
                     deleteFolder(fInfo.absoluteFilePath());
-                    //changingFileName = false;
+
                 } else {
                     // folder with the same name is already existing
                 }
 
             }
-        } else {
-            qDebug() << "nothing to do";
         }
     }
     droppedItem = NULL;
     loadFiles();
 }
-
-
-
-
 
 void NightWindow::saveSettings() {
     saveCurrentFile();
@@ -363,11 +357,7 @@ void NightWindow::loadSettings() {
 
     QSettings appSettings;
 
-    //QString path = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + QDir::separator() + DEFAULT_PATH;
-
-    // Application default folder
-    //dataPath = appSettings.value("general/path", path).toString();
-    this->setWindowTitle("Night Notes");
+    this->setWindowTitle(NIGHT_NOTES);
     QDir dataDir(NightNotePrefs::getCurrentPath());
     if (dataDir.exists() == false) {
         dataDir.mkpath(NightNotePrefs::getCurrentPath());
@@ -378,7 +368,6 @@ void NightWindow::loadSettings() {
     QString expandedFoldersStr = appSettings.value("general/expanded_folders", "").toString();
     if (expandedFoldersStr.isEmpty() == false) {
         expandedFolders = expandedFoldersStr.split(":");
-        //expandedFolders.
     }
 
     searchActive = appSettings.value("general/search_active", false).toBool();
@@ -395,12 +384,10 @@ void NightWindow::loadSettings() {
 
     // Splitter divider position
     int leftSize = appSettings.value("gui/divider", 150).toInt();
-    // qDebug() << "saved: " << leftSize;
-    // qDebug() << "splitter width: " << ui->splitter->width();
-    //int leftSize = 150;
+
     QList<int> currentSizes = ui->splitter->sizes();
-    currentSizes[0] = leftSize; // qDebug() << "left: " << currentSizes[0];
-    currentSizes[1] = ui->splitter->width() - leftSize; // qDebug() << "right: " << currentSizes[1];
+    currentSizes[0] = leftSize;
+    currentSizes[1] = ui->splitter->width() - leftSize;
     ui->splitter->setSizes(currentSizes);
 
     // Last edited file
@@ -458,11 +445,11 @@ QString NightWindow::getNewFileName4Folder(QString path) {
         if (nNewFile.exec() == 1) {
             QString newFileName = nNewFile.GetFileName();
             if (newFileName.isEmpty()) {
-                nNewFile.SetErrorText("File name cannot be empty!");
+                nNewFile.SetErrorText(tr("File name cannot be empty!"));
                 continue;
             }
             if (QFile::exists(newFileName) == true) {
-                nNewFile.SetErrorText("File with this name exists!");
+                nNewFile.SetErrorText(tr("File with this name exists!"));
                 continue;
             }
             return newFileName;
@@ -471,19 +458,7 @@ QString NightWindow::getNewFileName4Folder(QString path) {
         }
     }
 
-    /*
-    QString newFileName = path + QDir::separator() + DEFAULT_NEW_NAME + ".txt";
-    int count = 0;
-    while(QFile::exists(newFileName) == true) {
-        count++;
-        newFileName = path + QDir::separator() + DEFAULT_NEW_NAME + " (" + QString::number(count) + ").txt";
-        if (count > 3) {
-            // can't set? I'll generate it for you :)
-            newFileName = path + QDir::separator() + DEFAULT_NEW_NAME + " " + QDateTime::currentDateTime().toString(Qt::ISODate) + ".txt";
-            break;
-        }
-    }
-    */
+
     return "";
 }
 
@@ -544,7 +519,7 @@ void NightWindow::on_pushButtonFind_clicked()
 
 void NightWindow::findSearchTerm() {
     QString searchTerm = ui->lineEditFind->text().trimmed();
-    qDebug() << "search term: " << searchTerm;
+
     QString plainText = ui->plainTextEdit->toPlainText();
     if (lastSearchTerm.compare(searchTerm) != 0 || lastSearchIndex < 0) {
         lastSearchIndex = 0;
@@ -555,18 +530,16 @@ void NightWindow::findSearchTerm() {
     lastSearchIndex = plainText.indexOf(searchTerm, lastSearchIndex, Qt::CaseInsensitive);
     if (lastSearchIndex != -1) {
         foundMatches++;
-        qDebug() << "Match: " << foundMatches << ", Index: " << lastSearchIndex;
+
         QTextCursor textCursor = ui->plainTextEdit->textCursor();
         textCursor.setPosition(lastSearchIndex, QTextCursor::MoveAnchor);
         textCursor.setPosition(lastSearchIndex + searchTerm.length(), QTextCursor::KeepAnchor);
         ui->plainTextEdit->setTextCursor(textCursor);
-        //ui->plainTextEdit->textCursor().setPosition(lastSearchIndex, QTextCursor::MoveAnchor);
-        //ui->plainTextEdit->textCursor().setPosition(lastSearchIndex + searchTerm.length(), QTextCursor::KeepAnchor);
     } else {
         QTextCursor textCursor = ui->plainTextEdit->textCursor();
         textCursor.clearSelection();
         ui->plainTextEdit->setTextCursor(textCursor);
-        qDebug() << "Nothing found or search finished";
+
     }
     lastSearchTerm = searchTerm;
 }
