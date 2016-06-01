@@ -1,4 +1,4 @@
-## Night Notes (QT, C++)
+## Night Notes MD (QT, C++)
 
 You are welcome to the simpliest and fastest markdown notes manager in the world :)   
 It is free and it will give you even more freedom than you can imagine 
@@ -9,6 +9,7 @@ Main important features:
 - notes are stored as usual text or markdown files, they can be opened and edited by any other text editor, you are not limited with Night Notes, you still have free choice how to work with your information, no strings attached
 - you can automatically store your info in your favorite cloud service if you select appropriate folder (for example DropBox/Night Notes)
 - if you already have text notes in files, it is very easy to start working with night notes app
+- app is cross-platform (Mac OSX, Windows, Linux) and potentially can run everywhere where QT is ported
 
 ----
 
@@ -30,7 +31,7 @@ if you click the link above, it will try to open the file "another file.md" in t
 
 -----
 
-I'm using the app only on Mac but it can be easily compiled on Windows or Linux, as it uses QT, if you adapt the app and compile it for Win or Linux, create a merge request to me with appropriate configuration in .pro file.
+I'm using the app only on Mac at the moment but as it uses QT, it can be easily compiled on Windows or Linux, if you adapt the app configuration and compile it for Win or Linux, create a merge request to me with appropriate configuration in .pro file.
 
 You can install the app on Mac from here: [binaries here](https://gitlab.com/bykovme/nightnotes/tree/master/Downloads/Mac)
 
