@@ -10,7 +10,7 @@ Main important features:
 - you can automatically store your info in your favorite cloud service if you select appropriate folder (for example DropBox/Night Notes)
 - if you already have text notes in files, it is very easy to start working with night notes app
 
-The latest version of the app you can always find here:  http://nightnotes.bykov.me
+----
 
 The app uses the C library discount to translate the text from markdown format, some useful features added on top of this library
 
@@ -32,7 +32,7 @@ if you click the link above, it will try to open the file "another file.md" in t
 
 I'm using the app only on Mac but it can be easily compiled on Windows or Linux, as it uses QT, if you adapt the app and compile it for Win or Linux, create a merge request to me with appropriate configuration in .pro file.
 
-You can install the app on Mac from here: [binaries here](binaries here)
+You can install the app on Mac from here: [binaries here](https://gitlab.com/bykovme/nightnotes/tree/master/Downloads/Mac)
 
 It is my first (and probably last :) ) experieance with QT & C++, so, there are surely many things to improve in the project, feel free to do this and send a merge request to me.
 
