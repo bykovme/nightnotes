@@ -33,7 +33,7 @@ if you click the link above, it will try to open the file "another file.md" in t
 
 I'm using the app only on Mac at the moment but as it uses QT, it can be easily compiled on Windows or Linux, if you adapt the app configuration and compile it for Win or Linux, create a merge request to me with appropriate configuration in .pro file.
 
-You can install the app on Mac from here: [binaries here](https://gitlab.com/bykovme/nightnotes/tree/master/Downloads/Mac)
+You can install the app on Mac from here: [binaries here](https://github.com/bykovme/nightnotes/raw/master/Downloads/Mac/NightNotes.dmg)
 
 It is my first (and probably last :) ) experieance with QT & C++, so, there are surely many things to improve in the project, feel free to do this and send a merge request to me.
 
